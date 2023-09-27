@@ -31,24 +31,27 @@ jobs:
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
         echo "INICIANDO LOGIN"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        echo "NEW_VERSION: $NEW_VERSION!!!!!!!!"
 
-    #- name: Build Docker image
-    #  run: |
-    #    echo "CREAR IMAGEN DOCKER"
-    #    docker build -t lfre92/docker-graphql:0.0.2 .
-    #    docker build -t lfre92/docker-graphql:latest .
+    - name: Build Docker image
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
+        echo "New Version: version de Imagen $NEW_VERSION!!!!!!"
+      run: |
+        echo "CREAR IMAGEN DOCKER"
+        docker build -t lfre92/docker-graphql:$NEW_VERSION .
+        docker build -t lfre92/docker-graphql:latest .
 
-    #- name: Push Docker image
-    #  run: |
-    #    echo "REALIZAR PUSH"
-    #    docker push lfre92/docker-graphql:0.0.2
-    #    docker push lfre92/docker-graphql:latest
-    #    docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Push Docker image
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
+        echo "New Version: version de Imagen $NEW_VERSION!!!!!!"
+      run: |
+        echo "REALIZAR PUSH"
+        docker push lfre92/docker-graphql:$NEW_VERSION
+        docker push lfre92/docker-graphql:latest
 
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
