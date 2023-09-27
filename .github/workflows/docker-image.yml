@@ -38,20 +38,20 @@ jobs:
     - name: Build Docker image
       env:
         NEW_VERSION: ${{steps.version.outputs.version}}
-        echo "New Version: version de Imagen $NEW_VERSION!!!!!!"
       run: |
         echo "CREAR IMAGEN DOCKER"
         docker build -t lfre92/docker-graphql:$NEW_VERSION .
         docker build -t lfre92/docker-graphql:latest .
+        echo "New Version: version de Imagen $NEW_VERSION!!!!!!"
 
     - name: Push Docker image
       env:
         NEW_VERSION: ${{steps.version.outputs.version}}
-        echo "New Version: version de Imagen $NEW_VERSION!!!!!!"
       run: |
         echo "REALIZAR PUSH"
         docker push lfre92/docker-graphql:$NEW_VERSION
         docker push lfre92/docker-graphql:latest
+        echo "New Version: version de Imagen $NEW_VERSION!!!!!!"
 
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
