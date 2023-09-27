@@ -30,11 +30,13 @@ jobs:
       run: |
         echo "CREAR IMAGEN DOCKER"
         docker build -t lfre92/docker-graphql:0.0.2 .
+        docker build -t lfre92/docker-graphql:latest .
 
     - name: Push Docker image
       run: |
         echo "REALIZAR PUSH"
         docker push lfre92/docker-graphql:0.0.2
+        docker push lfre92/docker-graphql:latest
         
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
